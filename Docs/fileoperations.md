@@ -9,7 +9,7 @@
 ---
 <br>
 
-<a id="new"></a>
+<a id="new-1"></a>
 # New
 ---
 
@@ -86,7 +86,7 @@ $ tep new file --teps|--tepsource [name] [path]
 
 <br>
 
-<a id="compile"></a>
+<a id="compile-1"></a>
 # Compile
 
 ```shell
@@ -113,7 +113,7 @@ $ tep compile [name] --s|--source
 
 ---
 
-<a id="migrate"></a>
+<a id="migrate-1"></a>
 # Migrate
     updating...
 	
