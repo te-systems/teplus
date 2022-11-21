@@ -2,9 +2,9 @@
 ---
 ### Arguments
 
-- ### [new](#new)
-- ### [compile](#compile)
-- ### [migrate](#migrate)
+- ### [new](#new-1)
+- ### [compile](#compile-1)
+- ### [migrate](#migrate-1)
 
 ---
 <br>
