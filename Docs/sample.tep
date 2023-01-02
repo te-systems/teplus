@@ -1,0 +1,12 @@
+>] tep::langmode="cpp" | tep::filemode=src
+
+:] Sample file for tep|cpp
+
+#] include <iostream>
+
+o] using std::cout;
+o] using std::endl;
+
++] int main()
+o] cout << " Hello World ! << endl;
+-] return 0;
