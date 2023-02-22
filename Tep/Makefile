@@ -98,20 +98,10 @@ compile_tep:
 		-I $(API_INCLUDE) \
 		$(TEP_SRC)/tep.cpp \
 		-o $(TEP_OBJ)/tep.o
-	
-	$(CPP) $(CPP_FLAGS) \
-		-I $(TEP_INCLUDE) \
-		-I $(BOOST_INCLUDE) \
-		-I $(API_INCLUDE) \
-		$(TEP_SRC)/tepArgs.cpp \
-		-o $(TEP_OBJ)/tepArgs.o
-
-
 
 link_tep:
 	$(CPP) \
 		$(TEP_OBJ)/tep.o \
-		$(TEP_OBJ)/tepArgs.o \
 		$(API_OBJ)/tepCore.o \
 		$(API_OBJ)/tepIO.o \
 		$(OBJ_LIST_API_TEPCORE) \
