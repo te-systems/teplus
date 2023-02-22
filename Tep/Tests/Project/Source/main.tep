@@ -1,0 +1,6 @@
+>] tep::langmode=cpp
+#] include <iostream>
+
++] int main()
+o] std::cout << "Hello World" << std::endl;
+-] return 0;

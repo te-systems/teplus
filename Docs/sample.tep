@@ -1,4 +1,4 @@
->] tep::langmode="cpp" | tep::filemode=src
+>] tep::langmode = cpp | tep::filemode = src
 
 :] Sample file for tep|cpp
 
@@ -8,5 +8,5 @@ o] using std::cout;
 o] using std::endl;
 
 +] int main()
-o] cout << " Hello World ! << endl;
+o] cout << "Hello World !" << endl;
 -] return 0;
