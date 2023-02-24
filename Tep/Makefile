@@ -8,13 +8,16 @@ BOOST_LIBS = -lboost_program_options-mgw12-mt-x64-1_81
 
 
 API = ./API
+API_OBJ = $(API)/obj
+API_BIN = $(API)/bin
 
 API_INCLUDE = $(API)/include
 API_INCLUDE_TEPCORE = $(API_INCLUDE)/tepCore
-
+API_INCLUDE_TEPEXTSYS = $(API_INCLUDE)/tepExtSys
 
 API_SRC = $(API)/src
 API_SRC_TEPCORE = $(API_SRC)/tepCore
+API_SRC_TEPEXTSYS = $(API_SRC)/tepExtSys
 
 LIST_API_TEPCORE = \
 	CompileProcess		\
@@ -26,12 +29,17 @@ LIST_API_TEPCORE = \
 	ProcessTimer		
 
 INCLUDE_LIST_API_TEPCORE = $(foreach file , $(LIST_API_TEPCORE) , $(API_INCLUDE_TEPCORE)/$(file).hpp)
-SOURCE_LIST_API_TEPCORE = $(foreach file , $(LIST_API_TEPCORE) , $(API_INCLUDE_TEPCORE)/$(file).cpp)
+SOURCE_LIST_API_TEPCORE = $(foreach file , $(LIST_API_TEPCORE) , $(API_SRC_TEPCORE)/$(file).cpp)
 OBJ_LIST_API_TEPCORE = $(foreach file , $(LIST_API_TEPCORE) , $(API_OBJ)/$(file).o)
 
+LIST_API_TEPEXTSYS = \
+	Extension
 
-API_OBJ = $(API)/obj
-API_BIN = $(API)/bin
+INCLUDE_LIST_API_TEPEXTSYS = $(foreach file , $(LIST_API_TEPEXTSYS) , $(API_INCLUDE_TEPEXTSYS)/$(file).hpp)
+SOURCE_LIST_API_TEPEXTSYS = $(foreach file , $(LIST_API_TEPEXTSYS) , $(API_SRC_TEPEXTSYS)/$(file).cpp)
+OBJ_LIST_API_TEPEXTSYS = $(foreach file , $(LIST_API_TEPEXTSYS) , $(API_OBJ)/$(file).o)
+
+
 
 TEP = ./Compiler
 TEP_INCLUDE = $(TEP)/include
@@ -45,6 +53,7 @@ all: build
 
 build: \
 	compile_api_core \
+	compile_api_extsys \
 	compile_api	\
 	compile_tep	\
 	link_tep	
@@ -59,6 +68,7 @@ compile_out:
 	g++ out_file.cpp -o out.exe
 	@echo Compiled to out.exe
 
+# ===============================================================
 compile_api_core : $(OBJ_LIST_API_TEPCORE)
 	
 	@echo "Compiling => tepCore"
@@ -82,11 +92,38 @@ $(LIST_API_TEPCORE) :
 		-I $(API_INCLUDE_TEPCORE) \
 		-I $(BOOST_INCLUDE) $(API_SRC_TEPCORE)/$@.cpp \
 		-o $(API_OBJ)/$@.o
+# ===============================================================
+compile_api_extsys : $(OBJ_LIST_API_TEPEXTSYS)
+	
+	@echo "Compiling => tepCore"
+
+	$(CPP) $(CPP_FLAGS) \
+		-I $(API_INCLUDE) \
+		-I $(API_INCLUDE_TEPEXTSYS) \
+		-I $(BOOST_INCLUDE) $(API_SRC)/tepExtSys.cpp \
+		-o $(API_OBJ)/tepExtSys.o
+
+$(OBJ_LIST_API_TEPEXTSYS) : $(LIST_API_TEPEXTSYS)
+	
+$(LIST_API_TEPEXTSYS) :
+
+	@echo "---------------------------------------------"
+	@echo "Compiling => $@"
+	@echo "---------------------------------------------"
+
+	$(CPP) $(CPP_FLAGS) \
+		-I $(API_INCLUDE) \
+		-I $(API_INCLUDE_TEPEXTSYS) \
+		-I $(BOOST_INCLUDE) $(API_SRC_TEPEXTSYS)/$@.cpp \
+		-o $(API_OBJ)/$@.o
+
+# ===============================================================
 
 compile_api:
 
 	$(CPP) $(CPP_FLAGS) -I $(API_INCLUDE) -I $(BOOST_INCLUDE) $(API_SRC)/tepIO.cpp -o $(API_OBJ)/tepIO.o
 	$(CPP) $(CPP_FLAGS) -I $(API_INCLUDE) -I $(BOOST_INCLUDE) $(API_SRC)/tepCore.cpp -o $(API_OBJ)/tepCore.o
+	$(CPP) $(CPP_FLAGS) -I $(API_INCLUDE) -I $(BOOST_INCLUDE) $(API_SRC)/tepExtSys.cpp -o $(API_OBJ)/tepExtSys.o
 
 tep: compile_tep link_tep
 
