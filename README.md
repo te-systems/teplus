@@ -1,5 +1,7 @@
 # TePlus
 
+The Te+ language enables users to write faster and more organized code with an easy and regular syntax, and liberates users by increasing their control over the language.
+
 ## Description
 
 -------------
