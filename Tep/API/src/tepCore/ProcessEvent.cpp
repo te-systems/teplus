@@ -15,11 +15,21 @@ namespace tep
             m_processEvent = std::make_unique<std::function<void()>>();
             *m_processEvent = f;
         }
-        
+
         ProcessEvent::ProcessEvent(const ProcessEvent& other)
         {
             m_processEvent = std::make_unique<std::function<void()>>();
             *m_processEvent = *other.m_processEvent;
+        }
+
+        ProcessEvent::~ProcessEvent()
+        {
+            m_processEvent.reset();
+        }
+
+        const std::function<void()> ProcessEvent::get() const
+        {
+            return *m_processEvent;
         }
 
         void ProcessEvent::set(const std::function<void()>& proc) noexcept

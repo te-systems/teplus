@@ -20,7 +20,9 @@ namespace tep
                 ProcessEvent();
                 ProcessEvent(const std::function<void()>& f);
                 ProcessEvent(const ProcessEvent& other);
+                ~ProcessEvent();
 
+                const std::function<void()> get() const;
                 void set(const std::function<void()>& proc) noexcept;
                 void set(const ProcessEvent& other) noexcept;
                 void call();

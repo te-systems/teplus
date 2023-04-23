@@ -31,7 +31,8 @@ namespace tep
             {
                 const std::shared_ptr<ProcessProperties> processProp = std::make_shared<ProcessProperties>();
                 const std::shared_ptr<LayoutEvents> layoutEvents = std::make_shared<LayoutEvents>(LayoutEvents());
-                layoutEvents->processProp = processProp.get();
+                //TODO: load extension --
+                layoutEvents->setProcessProp(processProp.get());
 
                 layoutEvents->InitAll();
 
@@ -104,7 +105,7 @@ namespace tep
 
                     if(preProcess.exist()) preProcess.call();
 
-                    layoutEvents->m_defaultEvent = [currentLine,nonspaceMatch,&processProp](){
+                    layoutEvents->setDefaultEvent([currentLine,nonspaceMatch,&processProp](){
                         processProp->outStream.replace(0,processProp->layout,processProp->layout,'\t');
                         const std::string temp = currentLine.substr(currentLine.find(']')+1 , currentLine.length()-1);
                         std::smatch matcher;
@@ -113,11 +114,11 @@ namespace tep
                             std::ssub_match match = matcher[0];
                             processProp->outStream.append(match.str());
                         }
-                    };
+                    });
 
-                    layoutEvents->m_extEvent = [&extFile , &processProp](){
+                    layoutEvents->setExtEvent([&extFile , &processProp](){
                         extFile << processProp->outStream << '\n';
-                    };
+                    });
 
                     if(extFile.is_open() && extFile.good())
                     {

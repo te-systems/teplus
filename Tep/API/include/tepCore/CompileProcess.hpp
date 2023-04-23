@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <regex>
 #include <functional>
+
 #include "tepAssert.hpp"
 #include "tepIO.hpp"
 #include "tepLiterals.hpp"

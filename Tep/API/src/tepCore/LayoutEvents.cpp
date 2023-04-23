@@ -9,81 +9,86 @@ namespace tep
             m_defaultEvent = [](){};
             m_extEvent = [](){};
         }
+
+        LayoutEvents::~LayoutEvents()
+        {
+            delete m_processProp;
+        }
         
-        void LayoutEvents::InitAll() noexcept
+        void LayoutEvents::InitAll()
         {
             events.insert(
-                std::pair<std::string , LayoutOperation>(
+                std::pair<const std::string , LayoutOperation>(
                     "o",
                     LayoutOperation(
                         ProcessEvent([&](){}),
                         ProcessEvent([&](){
-                            m_defaultEvent();
+                            this->getDefaultEvent();
                         }),
                         ProcessEvent([&](){
-                            m_extEvent();
+                            this->getExtEvent();
                         })
                     )
                 )
             );
             events.insert(
-                std::pair<std::string , LayoutOperation>(
+                std::pair<const std::string , LayoutOperation>(
                     "+",
                     LayoutOperation(
                         ProcessEvent([&](){}),
                         ProcessEvent([&](){
-                            m_defaultEvent();
+                            this->getDefaultEvent();
                         }),
                         ProcessEvent([&](){
-                            processProp->layout++;
-                            processProp->outStream.append("{");
+                            this->getProcessProp()->layout++;
+                            this->getProcessProp()->outStream.append("{");
                             m_extEvent();
                         })
                     )
                 )
             );
             events.insert(
-                std::pair<std::string , LayoutOperation>(
+                std::pair<const std::string , LayoutOperation>(
                     "-",
                     LayoutOperation(
                         ProcessEvent([&](){}),
                         ProcessEvent([&](){
-                            m_defaultEvent();
+                            this->getDefaultEvent();
                         }),
                         ProcessEvent([&](){
-                            if(processProp->layout > 0){
-                                processProp->layout--;
-                                processProp->outStream.append("\n");
-                                std::string tab(processProp->layout,'\t');
-                                processProp->outStream.append(tab + "}");
-                                m_extEvent();
+                            if(this->getProcessProp()->layout > 0){
+                                this->getProcessProp()->layout--;
+                                this->getProcessProp()->outStream.append("\n");
+                                std::string tab(this->getProcessProp()->layout,'\t');
+                                this->getProcessProp()->outStream.append(tab + "}");
+                                this->getExtEvent()();
                             }
                         })
                     )
                 )
             );
             events.insert(
-                std::pair<std::string , LayoutOperation>(
+                std::pair<const std::string , LayoutOperation>(
                     "#",
                     LayoutOperation(
                         ProcessEvent([&](){
-                            processProp->outStream.append("#");
+                            this->getProcessProp()->outStream.append("#");
                         }),
                         ProcessEvent([&](){
-                            m_defaultEvent();
+                            this->getDefaultEvent();
                         }),
                         ProcessEvent([&](){
-                            m_extEvent();
+                            this->getExtEvent();
                         })
                     )
                 )
             );
             events.insert(
-                std::pair<std::string , LayoutOperation>(
+                std::pair<const std::string , LayoutOperation>(
                     ">",
                     LayoutOperation(
                         ProcessEvent([&](){
-                            LayoutCommand::Execute(processProp->lineStream);
+                            LayoutCommand::Execute(this->getProcessProp()->lineStream);
                         }),
                         ProcessEvent([&](){}),
                         ProcessEvent([&](){})
@@ -92,31 +97,33 @@ namespace tep
             );
         }
 
-        /*std::map<std::string , std::pair<LayoutEvents::ProcessOrder, std::function<void()>>> events {
-                    {"+" ,{LayoutEvents::ProcessOrder::after, [&]()
-                        {
-                            processProp->layout++;
-                            processProp->outStream.append("{");
-                        }
-                    }},
-                    {"-" ,{LayoutEvents::ProcessOrder::after, [&]()
-                        {
-                            if(processProp->layout > 0){
-                                processProp->layout--;
-                                processProp->outStream.append("\n");
-                                std::string tab(processProp->layout,'\t');
-                                processProp->outStream.append(tab + "}");
-                            }
+        const std::function<void()> LayoutEvents::getDefaultEvent() const
+        {
+            return m_defaultEvent;
+        }
+        void LayoutEvents::setDefaultEvent(const std::function<void()>& defaultEvent)
+        {
+            m_defaultEvent = defaultEvent;
+        }
 
-                        }
-                    }},
-                    {"o" ,{LayoutEvents::ProcessOrder::before, [&](){}}},
-                    {"#" ,{LayoutEvents::ProcessOrder::before, [&](){processProp->outStream.append("#");}}},
-                    {">" ,{LayoutEvents::ProcessOrder::before, [&](){
-                        //Log(processProp->lineStream);
-                        LayoutCommand::Execute(processProp->lineStream);
-                    }}},
-                };*/
+        const std::function<void()> LayoutEvents::getExtEvent() const
+        {
+            return m_extEvent;
+        }
+        void LayoutEvents::setExtEvent(const std::function<void()>& extEvent)
+        {
+            m_extEvent = extEvent;
+        }
 
+        ProcessProperties* LayoutEvents::getProcessProp() const
+        {
+            return m_processProp;
+        }
+        void LayoutEvents::setProcessProp(ProcessProperties* processProp)
+        {
+            if(m_processProp != nullptr) delete m_processProp;
+
+            m_processProp = processProp;
+        }
     }
 }

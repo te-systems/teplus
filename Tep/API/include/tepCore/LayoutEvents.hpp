@@ -1,19 +1,15 @@
-#include <filesystem>
-#include <chrono>
-#include <algorithm>
-#include <regex>
+#ifndef TEP_CORE_LAYOUTEVENTS
+#define TEP_CORE_LAYOUTEVENTS
+
 #include <functional>
+#include <string>
+
 #include "tepAssert.hpp"
-#include "tepIO.hpp"
-#include "tepLiterals.hpp"
 
 #include "LayoutOperation.hpp"
 #include "ProcessEvent.hpp"
 #include "LayoutCommand.hpp"
 #include "ProcessProperties.hpp"
-
-#ifndef TEP_CORE_LAYOUTEVENTS
-#define TEP_CORE_LAYOUTEVENTS
 
 namespace tep
 {
@@ -23,20 +19,29 @@ namespace tep
         {
             public:
                 LayoutEvents();
-                enum ProcessOrder
-                {
-                    before,
-                    after,
-                };
+                ~LayoutEvents();
+                virtual void InitAll();
                 
-                ProcessProperties* processProp;
+                std::map<const std::string , LayoutOperation> events;
+                
+                /*
+                    * defaults
+                    * TODO: Make as static literal properties
+                */
 
-                std::map<std::string , LayoutOperation> events;
+               const std::function<void()> getDefaultEvent() const;
+               void setDefaultEvent(const std::function<void()>& defaultEvent);
 
-                virtual void InitAll() noexcept;
+               const std::function<void()> getExtEvent() const;
+               void setExtEvent(const std::function<void()>& extEvent);
+
+                ProcessProperties* getProcessProp() const;
+                void setProcessProp(ProcessProperties* processProp);
+                
+            private:
+                ProcessProperties* m_processProp;
                 std::function<void()> m_defaultEvent;
                 std::function<void()> m_extEvent;
-            
         };
     }
 }

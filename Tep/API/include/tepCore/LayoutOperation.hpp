@@ -1,3 +1,6 @@
+#ifndef TEP_CORE_LAYOUTOPERATION
+#define TEP_CORE_LAYOUTOPERATION
+
 #include <filesystem>
 #include <chrono>
 #include <algorithm>
@@ -9,8 +12,6 @@
 
 #include "ProcessEvent.hpp"
 
-#ifndef TEP_CORE_LAYOUTOPERATION
-#define TEP_CORE_LAYOUTOPERATION
 
 namespace tep
 {
@@ -25,16 +26,20 @@ namespace tep
                     ProcessEvent content,
                     ProcessEvent post
                 );
+                LayoutOperation(const LayoutOperation& other);
                 
                 ProcessEvent* GetPreProcess() const;
                 ProcessEvent* GetContentProcess() const;
                 ProcessEvent* GetPostProcess() const;
+
                 const bool ExistPreProcess() const noexcept;
                 const bool ExistContentProcess() const noexcept;
                 const bool ExistPostProcess() const noexcept;
+                
                 void SetPreProcess(const ProcessEvent& process) noexcept;
                 void SetContentProcess(const ProcessEvent& process) noexcept;
                 void SetPostProcess(const ProcessEvent& process) noexcept;
+                
             private:
                 std::unique_ptr<ProcessEvent> m_preProcess;
                 std::unique_ptr<ProcessEvent> m_contentProcess;

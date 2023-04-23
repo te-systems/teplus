@@ -19,7 +19,17 @@ namespace tep
             m_contentProcess = std::make_unique<ProcessEvent>(content);
             m_postProcess = std::make_unique<ProcessEvent>(post);
         }
-        
+        LayoutOperation::LayoutOperation(const LayoutOperation& other)
+        {
+            this->m_preProcess.reset();
+            this->m_contentProcess.reset();
+            this->m_postProcess.reset();
+            
+            this->m_preProcess = std::make_unique<ProcessEvent>(other.m_preProcess->get());
+            this->m_contentProcess = std::make_unique<ProcessEvent>(other.m_contentProcess->get());
+            this->m_postProcess = std::make_unique<ProcessEvent>(other.m_postProcess->get());
+        }
+
         ProcessEvent* LayoutOperation::GetPreProcess() const
         {
             return m_preProcess.get();

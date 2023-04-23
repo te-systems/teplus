@@ -18,6 +18,8 @@ namespace tep
         {
             public:
                 ProcessProperties();
+                ~ProcessProperties();
+                
                 std::size_t line;
                 std::size_t layout;
                 std::string lineStream;

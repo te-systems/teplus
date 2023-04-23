@@ -11,5 +11,9 @@ namespace tep
             lineStream = "";
             outStream = "";
         }
+        ProcessProperties::~ProcessProperties()
+        {
+            
+        }
     }
 }

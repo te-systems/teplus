@@ -6,6 +6,8 @@
 #include <unordered_map>
 #include <boost/format.hpp>
 #include <windows.h>
+#include <sstream>
+#include <iomanip>
 
 namespace tep
 {
