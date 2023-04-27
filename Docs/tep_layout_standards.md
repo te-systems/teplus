@@ -2,7 +2,7 @@
 
 ## Description
 
-This document declaration of ``Te+ Layout Standards``. This is includes the coding standards directive. These directives are a document for coders and ``Te+ extension (.tepe)`` developers.
+This document declares ``Te+ Layout Standards``. These directives are a guide for programmers and ``Te+ Extension`` developers.
 
 ### Contents
 - [Internal Command Executor Identifier](#internal-command-executor-identifier)
@@ -36,7 +36,7 @@ This document declaration of ``Te+ Layout Standards``. This is includes the codi
 
 ``Identifier`` : ``o]``
 
-``Description`` : This identify the current/instant line. Also this represent your current indent.
+``Description`` : Identifies the current/instant line. Also this represents your current indent.
 
 <br>
 
@@ -54,7 +54,7 @@ o] auto count = 5
 
 ``Identifier(End)`` : ``-]``
 
-``Description`` : Open/Close a new scope. Also this increase/decrease your indent.
+``Description`` : Opens/Closes a new scope. Also this increase/decrease your indent.
 
 <br>
 
@@ -72,7 +72,7 @@ o] game.GameOver()
 
 ``Identifier`` : ``~]``
 
-``Description`` : This close before the scope and creates the new scope. So this creates the new mid scope.
+``Description`` : Closes the previous scope and creates the new scope. So this creates the new mid scope.
 
 <br>
 
