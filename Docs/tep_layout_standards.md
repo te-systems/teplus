@@ -54,7 +54,7 @@ o] auto count = 5
 
 ``Identifier(End)`` : ``-]``
 
-``Description`` : Opens/Closes a new scope. Also this increase/decrease your indent.
+``Description`` : Opens/Closes a new scope. Also this increases/decreases your indent.
 
 <br>
 
@@ -72,7 +72,7 @@ o] game.GameOver()
 
 ``Identifier`` : ``~]``
 
-``Description`` : Closes the previous scope and creates the new scope. So this creates the new mid scope.
+``Description`` : Closes the previous scope and creates the new scope. So this creates a new mid scope.
 
 <br>
 
