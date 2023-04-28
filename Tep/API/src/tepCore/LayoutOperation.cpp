@@ -21,13 +21,9 @@ namespace tep
         }
         LayoutOperation::LayoutOperation(const LayoutOperation& other)
         {
-            this->m_preProcess.reset();
-            this->m_contentProcess.reset();
-            this->m_postProcess.reset();
-            
-            this->m_preProcess = std::make_unique<ProcessEvent>(other.m_preProcess->get());
-            this->m_contentProcess = std::make_unique<ProcessEvent>(other.m_contentProcess->get());
-            this->m_postProcess = std::make_unique<ProcessEvent>(other.m_postProcess->get());
+            this->m_preProcess = std::make_unique<ProcessEvent>(*other.GetPreProcess());
+            this->m_contentProcess = std::make_unique<ProcessEvent>(*other.GetContentProcess());
+            this->m_postProcess = std::make_unique<ProcessEvent>(*other.GetPostProcess());
         }
 
         ProcessEvent* LayoutOperation::GetPreProcess() const
@@ -56,15 +52,15 @@ namespace tep
         }
         void LayoutOperation::SetPreProcess(const ProcessEvent& process) noexcept
         {
-            //m_preProcess = std::make_unique<ProcessEvent>(process);
+            m_preProcess = std::make_unique<ProcessEvent>(process);
         }
         void LayoutOperation::SetContentProcess(const ProcessEvent& process) noexcept
         {
-            //m_preProcess = std::make_unique<ProcessEvent>(process);
+            m_preProcess = std::make_unique<ProcessEvent>(process);
         }
         void LayoutOperation::SetPostProcess(const ProcessEvent& process) noexcept
         {
-            //m_preProcess = std::make_unique<ProcessEvent>(process);
+            m_preProcess = std::make_unique<ProcessEvent>(process);
         }
     }
 }

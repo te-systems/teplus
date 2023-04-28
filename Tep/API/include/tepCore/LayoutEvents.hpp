@@ -29,11 +29,11 @@ namespace tep
                     * TODO: Make as static literal properties
                 */
 
-               const std::function<void()> getDefaultEvent() const;
-               void setDefaultEvent(const std::function<void()>& defaultEvent);
+                const std::function<void()> getDefaultEvent() const;
+                void setDefaultEvent(const std::function<void()>& defaultEvent);
 
-               const std::function<void()> getExtEvent() const;
-               void setExtEvent(const std::function<void()>& extEvent);
+                const std::function<void()> getExtEvent() const;
+                void setExtEvent(const std::function<void()>& extEvent);
 
                 ProcessProperties* getProcessProp() const;
                 void setProcessProp(ProcessProperties* processProp);

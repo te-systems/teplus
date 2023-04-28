@@ -100,6 +100,7 @@ int main(int argc , const char *const *argv)
             const std::filesystem::path current_path(current_path_str);
             tep::Core::CompileProcess m_process(current_path);
             m_process.Run();
+
             system("mingw32-make compile_out");
         }
     }

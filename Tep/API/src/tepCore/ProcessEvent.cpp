@@ -6,25 +6,22 @@ namespace tep
     {
         ProcessEvent::ProcessEvent()
         {
-            m_processEvent = std::make_unique<std::function<void()>>();
-            *m_processEvent = [](){};
+            m_processEvent = std::make_unique<std::function<void()>>([](){});
         }
 
         ProcessEvent::ProcessEvent(const std::function<void()>& f)
         {
-            m_processEvent = std::make_unique<std::function<void()>>();
-            *m_processEvent = f;
+            m_processEvent = std::make_unique<std::function<void()>>(f);
         }
 
         ProcessEvent::ProcessEvent(const ProcessEvent& other)
         {
-            m_processEvent = std::make_unique<std::function<void()>>();
-            *m_processEvent = *other.m_processEvent;
+            m_processEvent = std::make_unique<std::function<void()>>(other.get());
         }
 
         ProcessEvent::~ProcessEvent()
         {
-            m_processEvent.reset();
+            //m_processEvent.reset();
         }
 
         const std::function<void()> ProcessEvent::get() const
@@ -39,7 +36,7 @@ namespace tep
         
         void ProcessEvent::set(const ProcessEvent& other) noexcept
         {
-            *m_processEvent = *other.m_processEvent;
+            *m_processEvent = (*other.m_processEvent);
         }
 
         void ProcessEvent::call()

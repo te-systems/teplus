@@ -29,13 +29,14 @@ namespace tep
             
             if(file.is_open())
             {
-                const std::shared_ptr<ProcessProperties> processProp = std::make_shared<ProcessProperties>();
-                const std::shared_ptr<LayoutEvents> layoutEvents = std::make_shared<LayoutEvents>(LayoutEvents());
+                ProcessProperties* processProp = new ProcessProperties();
+                std::shared_ptr<LayoutEvents> layoutEvents = std::make_shared<LayoutEvents>();
                 //TODO: load extension --
-                layoutEvents->setProcessProp(processProp.get());
+
+                layoutEvents->setProcessProp(processProp);
 
                 layoutEvents->InitAll();
-
+                
                 std::int64_t braceCounter = 0;
                 std::vector<std::string> lineStorage;
 
@@ -85,19 +86,15 @@ namespace tep
                             if(layoutEvents->events.find(op) != layoutEvents->events.end())
                             {
                                 auto currentOperation = &layoutEvents->events[op];
-
+                                
                                 if(currentOperation->ExistPreProcess())
-                                {
-                                    preProcess.set(*currentOperation->GetPreProcess());
-                                }
+                                    preProcess.set(currentOperation->GetPreProcess()->get());
+
                                 if(currentOperation->ExistContentProcess())
-                                {
-                                    contentProcess.set(*currentOperation->GetContentProcess());
-                                }
+                                    contentProcess.set(currentOperation->GetContentProcess()->get());
+
                                 if(currentOperation->ExistPostProcess())
-                                {
-                                    postProcess.set(*currentOperation->GetPostProcess());
-                                }
+                                    postProcess.set(currentOperation->GetPostProcess()->get());
                             }
                         
                         }
@@ -126,7 +123,6 @@ namespace tep
                         extFile << processProp->outStream;
                         processProp->outStream.clear();
                         if(postProcess.exist()) postProcess.call();
-                        
                     }
 
                     preProcess.clear();
@@ -134,7 +130,6 @@ namespace tep
                     postProcess.clear();
                 }
                 file.close();
-                extFile.close();
             }
             extFile.close();
 
@@ -144,7 +139,6 @@ namespace tep
             ss << std::setprecision(4);
             ss << pTimer.getDuration().count() << " s";
             Log(std::chrono::system_clock::now(), attribute::__DEBUG , "Elapsed time : " + ss.str());
-
         }
     }
 }

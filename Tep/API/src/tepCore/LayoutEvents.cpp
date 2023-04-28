@@ -23,10 +23,10 @@ namespace tep
                     LayoutOperation(
                         ProcessEvent([&](){}),
                         ProcessEvent([&](){
-                            this->getDefaultEvent();
+                            this->getDefaultEvent()();
                         }),
                         ProcessEvent([&](){
-                            this->getExtEvent();
+                            this->getExtEvent()();
                         })
                     )
                 )
@@ -37,7 +37,7 @@ namespace tep
                     LayoutOperation(
                         ProcessEvent([&](){}),
                         ProcessEvent([&](){
-                            this->getDefaultEvent();
+                            this->getDefaultEvent()();
                         }),
                         ProcessEvent([&](){
                             this->getProcessProp()->layout++;
@@ -53,7 +53,7 @@ namespace tep
                     LayoutOperation(
                         ProcessEvent([&](){}),
                         ProcessEvent([&](){
-                            this->getDefaultEvent();
+                            this->getDefaultEvent()();
                         }),
                         ProcessEvent([&](){
                             if(this->getProcessProp()->layout > 0){
@@ -75,10 +75,10 @@ namespace tep
                             this->getProcessProp()->outStream.append("#");
                         }),
                         ProcessEvent([&](){
-                            this->getDefaultEvent();
+                            this->getDefaultEvent()();
                         }),
                         ProcessEvent([&](){
-                            this->getExtEvent();
+                            this->getExtEvent()();
                         })
                     )
                 )
@@ -121,8 +121,6 @@ namespace tep
         }
         void LayoutEvents::setProcessProp(ProcessProperties* processProp)
         {
-            if(m_processProp != nullptr) delete m_processProp;
-
             m_processProp = processProp;
         }
     }
