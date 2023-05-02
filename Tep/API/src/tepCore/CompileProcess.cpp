@@ -1,4 +1,5 @@
 #include "../../include/tepCore/CompileProcess.hpp"
+#include <algorithm>
 
 namespace tep
 {
@@ -44,10 +45,15 @@ namespace tep
                 ProcessEvent contentProcess = ProcessEvent();
                 ProcessEvent postProcess = ProcessEvent();
 
-                const std::regex layoutMatch("[\\s]?+[^\\s]+[\\]]");
+                const std::regex layoutMatch("\\s*\\S+\\s*\\]",std::regex_constants::ECMAScript);
                 const std::regex nonspaceMatch("[^\\s].+");
                 
-                auto layoutOperative = [&](std::string identifier){
+                auto layoutOperative = [&](std::string rawIdentifier){
+                    auto identifierBegin = std::find_if(rawIdentifier.begin(), rawIdentifier.end(), [](unsigned char c){ return !std::isspace(c);});
+                    
+                    std::string identifier;
+                    std::copy(identifierBegin, rawIdentifier.end(), std::back_inserter(identifier));
+
                     for(const auto& n : layoutEvents->events)
                     {
                         if(n.first == identifier){
@@ -72,13 +78,14 @@ namespace tep
                     std::string layoutIdentifier = currentLine.substr(0, layoutBracePos+1);
                     std::smatch layoutMatches;
 
-                    
+                    //tep::Log("LI: " + layoutIdentifier);
 
-                    if(std::regex_match(layoutIdentifier , layoutMatches , layoutMatch))
+                    if(std::regex_search(layoutIdentifier , layoutMatches , layoutMatch))
                     {
                         std::ssub_match match = layoutMatches[0];
                         const std::string rawLayoutIdentifier = match.str().substr(0 , match.str().length()-1);
                         const std::string operative = layoutOperative(rawLayoutIdentifier);
+                        //tep::Log("OP: " + operative);
                         if(!operative.empty())
                         {
                             //Log("is matched operative");
